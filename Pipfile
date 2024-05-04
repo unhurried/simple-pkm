@@ -6,8 +6,9 @@ name = "pypi"
 [packages]
 pyinstaller = "*"
 pyperclip = "*"
+nuitka = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.12"
+python_version = "3.11"
