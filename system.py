@@ -4,6 +4,10 @@ import tomllib
 from typing import TypedDict
 
 
+def exit_success():
+    sys.exit(0)
+
+
 def exit_error(message: str):
     print(message)
     input("Press any key to close the console.")

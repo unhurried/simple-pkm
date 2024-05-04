@@ -1,20 +1,11 @@
 import datetime
 import os
 from pathlib import Path
+from prompt import prompt
 import pyperclip
 import os.path
 import argparse
-
-from system import exit_error, load_config
-
-# Load command options.
-parser = argparse.ArgumentParser(
-    prog="simple-pkm",
-    usage="simple-pkm <command>",
-    add_help=False,
-)
-parser.add_argument("command", choices=["create", "search"])
-args = parser.parse_args()
+from system import exit_error, exit_success, load_config
 
 # Load config file.
 config = load_config()
@@ -24,20 +15,22 @@ note_dir = Path(config["note_dir_path"])
 if not note_dir.exists():
     exit_error("note_dir_path doesn't exist.")
 
-if args.command == "search":
+mode, keyword = prompt()
 
-    search_keyword: str = input("Enter search keyword: ")
+if mode == "search":
+    if not keyword:
+        exit_success()
     os.startfile(
-        f"search-ms:displayname=Search Result&query={search_keyword}&crumb=location:{note_dir}"
+        f"search-ms:displayname=Search Result&query={keyword}&crumb=location:{note_dir}"
     )
 
-elif args.command == "create":
-
-    page_title: str = input("Enter page title: ")
+elif mode == "create":
+    if not keyword:
+        exit_success()
 
     # Prepare a Path object for the page file.
     date = format(datetime.date.today(), "%Y_%m%d")
-    page_dir_name = f"{date}_{page_title}"
+    page_dir_name = f"{date}_{keyword}"
     page_dir = note_dir.joinpath(page_dir_name)
     page_file = page_dir.joinpath("index.md")
 
@@ -49,3 +42,6 @@ elif args.command == "create":
     # Copy the file path to the clipboard and open the file.
     pyperclip.copy(str(page_file))
     os.startfile(str(page_file))
+
+elif mode == "list":
+    os.startfile(note_dir)
