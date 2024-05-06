@@ -12,10 +12,11 @@ pipenv shell
 pipenv install
 
 # Create an executable with PyInstaller.
-pyinstaller --onefile -n "simple-pkm" .\main.py
+pyinstaller --onefile --noconsole --icon="resource/favicon.ico" -n "simple-pkm" .\main.py
 
 # Create an executable with nuitka.
-nuitka --standalone --enable-plugin=tk-inter --disable-console --output-filename=simple-pkm main.py
+# Note: Exclude --onefile option when the executable is detected as a malware.
+nuitka --standalone --onefile --enable-plugin=tk-inter --disable-console --windows-icon-from-ico="resource/favicon.ico" --output-filename=simple-pkm main.py
 ```
 
 ### Run the application

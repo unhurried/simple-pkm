@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8ab5ba4f0845a75a0d03bab9dbc2120a5d6a3090cca9b4caae789ad555e4dd2b"
+            "sha256": "95abb2cb14d676b4cc365aceb45e662bc1b3cec40e602fd5062f26445e814e00"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,15 @@
         ]
     },
     "default": {
+        "pyperclip": {
+            "hashes": [
+                "sha256:105254a8b04934f0bc84e9c24eb360a591aaf6535c9def5f29d92af107a9bf57"
+            ],
+            "index": "pypi",
+            "version": "==1.8.2"
+        }
+    },
+    "develop": {
         "altgraph": {
             "hashes": [
                 "sha256:1b5afbb98f6c4dcadb2e2ae6ab9fa994bbb8c1d75f4fa96d340f9437ae454406",
@@ -25,10 +34,10 @@
         },
         "nuitka": {
             "hashes": [
-                "sha256:ee961a34f2fc54c28607e84e65e5b33b47b1b4352eb97fa4d158e2f204a2a183"
+                "sha256:a8ca7d8a2b65d544385b8c6678a3633c228fe22a9be39af3bdfe89d8e97ea511"
             ],
             "index": "pypi",
-            "version": "==2.1.6"
+            "version": "==2.2"
         },
         "ordered-set": {
             "hashes": [
@@ -80,13 +89,6 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==2024.5"
-        },
-        "pyperclip": {
-            "hashes": [
-                "sha256:105254a8b04934f0bc84e9c24eb360a591aaf6535c9def5f29d92af107a9bf57"
-            ],
-            "index": "pypi",
-            "version": "==1.8.2"
         },
         "pywin32-ctypes": {
             "hashes": [
@@ -156,6 +158,5 @@
             "markers": "python_version >= '3.8'",
             "version": "==0.22.0"
         }
-    },
-    "develop": {}
+    }
 }
