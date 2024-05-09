@@ -36,18 +36,20 @@ def prompt() -> Tuple[str, str]:
 
     def change_mode(mode_name: str):
         def _change_mode(event):
-            root.title(f"{APP_NAME} - {mode_name.capitalize()}")
+            root.title(f"{APP_NAME} - {mode_name}")
             global mode
             mode = mode_name
             root.unbind("l")
-            root.unbind("c")
+            root.unbind("p")
+            root.unbind("f")
             root.unbind("s")
             entry.focus_set()
 
         return _change_mode
 
     root.bind("l", list)
-    root.bind("c", change_mode("create"))
+    root.bind("p", change_mode("create page"))
+    root.bind("f", change_mode("create folder"))
     root.bind("s", change_mode("search"))
 
     root.focus_set()

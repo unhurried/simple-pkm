@@ -18,13 +18,17 @@ class config(TypedDict):
     note_dir_path: str
 
 
-def load_config() -> config:
+def get_config_dir() -> Path:
     config_dir = (
         Path(__file__).parent
         if Path(sys.executable).name == "python.exe"
         else Path(sys.executable).parent
     )
+    return config_dir
 
+
+def load_config() -> config:
+    config_dir = get_config_dir()
     config_file = config_dir.joinpath("config.toml")
     if not config_file.exists():
         exit_error("config.toml is missing.")

@@ -1,11 +1,9 @@
-import datetime
 import os
 from pathlib import Path
 from prompt import prompt
 import pyperclip
 import os.path
-import argparse
-from system import exit_error, exit_success, load_config
+from system import exit_error, exit_success, get_config_dir, load_config
 
 # Load config file.
 config = load_config()
@@ -24,18 +22,28 @@ if mode == "search":
         f"search-ms:displayname=Search Result&query={keyword}&crumb=location:{note_dir}"
     )
 
-elif mode == "create":
+elif mode == "create folder":
+    if not keyword:
+        exit_success()
+
+    # Prepare a Path object for the folder.
+    folder = note_dir.joinpath(f"{keyword}")
+
+    # Create a folder in the directory.
+    os.makedirs(folder)
+
+    # Copy the file path to the clipboard and open the file.
+    pyperclip.copy(str(folder))
+    os.startfile(str(folder))
+
+elif mode == "create page":
     if not keyword:
         exit_success()
 
     # Prepare a Path object for the page file.
-    date = format(datetime.date.today(), "%Y_%m%d")
-    page_dir_name = f"{date}_{keyword}"
-    page_dir = note_dir.joinpath(page_dir_name)
-    page_file = page_dir.joinpath("index.md")
+    page_file = note_dir.joinpath(f"{keyword}.md")
 
-    # Create a directory and a markdown file in the directory.
-    os.makedirs(page_dir)
+    # Create a markdown file in the directory.
     with open(page_file, "w", encoding="utf_8_sig") as f:
         f.write("\r\n")
 
@@ -44,4 +52,14 @@ elif mode == "create":
     os.startfile(str(page_file))
 
 elif mode == "list":
-    os.startfile(note_dir)
+    config_dir = get_config_dir()
+    search_file = config_dir.joinpath("list.search-ms")
+    if not search_file.exists():
+        search_template = config_dir.joinpath(f"resource/template.search-ms")
+        with open(search_template, "r", encoding="utf_8") as t, open(
+            search_file, "w", encoding="utf_8"
+        ) as f:
+            contents = t.read().replace("${note_dir}", str(note_dir))
+            f.write(contents)
+
+    os.startfile(search_file)
