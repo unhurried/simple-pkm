@@ -15,7 +15,7 @@
     <query>
         <conditions>
             <condition type="notCondition">
-                <condition type="leafCondition" property="System.Generic.String"
+                <condition type="leafCondition" property="System.ItemNameDisplay"
                     operator="wordmatch" propertyType="string" value=":.md.assets">
                 </condition>
             </condition>
