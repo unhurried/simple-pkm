@@ -14,9 +14,14 @@
     </viewInfo>
     <query>
         <conditions>
-            <condition type="notCondition">
+            <condition type="andCondition">
+                <condition type="notCondition">
+                    <condition type="leafCondition" property="System.ItemNameDisplay"
+                        operator="wordmatch" propertyType="string" value=".assets">
+                    </condition>
+                </condition>
                 <condition type="leafCondition" property="System.ItemNameDisplay"
-                    operator="wordmatch" propertyType="string" value=":.md.assets">
+                        operator="wordmatch" propertyType="string" value="${keyword}">
                 </condition>
             </condition>
         </conditions>
@@ -24,7 +29,7 @@
             <kind name="item" />
         </kindList>
         <scope>
-            <include nonRecursive="true" path="${note_dir}" />
+            <include nonRecursive="${non_recursive}" path="${note_dir}" />
         </scope>
     </query>
 </persistedQuery>

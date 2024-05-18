@@ -40,17 +40,17 @@ def prompt() -> Tuple[str, str]:
             global mode
             mode = mode_name
             root.unbind("l")
-            root.unbind("p")
+            root.unbind("np")
+            root.unbind("nf")
             root.unbind("f")
-            root.unbind("s")
             entry.focus_set()
 
         return _change_mode
 
     root.bind("l", list)
-    root.bind("p", change_mode("create page"))
-    root.bind("f", change_mode("create folder"))
-    root.bind("s", change_mode("search"))
+    root.bind("np", change_mode("new page"))
+    root.bind("nf", change_mode("new folder"))
+    root.bind("f", change_mode("find"))
 
     root.focus_set()
     root.mainloop()

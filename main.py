@@ -3,6 +3,7 @@ from pathlib import Path
 from prompt import prompt
 import pyperclip
 import os.path
+from search import search
 from system import exit_error, exit_success, get_config_dir, load_config
 
 # Load config file.
@@ -15,14 +16,10 @@ if not note_dir.exists():
 
 mode, keyword = prompt()
 
-if mode == "search":
-    if not keyword:
-        exit_success()
-    os.startfile(
-        f"search-ms:displayname=Search Result&query={keyword}&crumb=location:{note_dir}"
-    )
+if mode == "find":
+    search(note_dir, "find", False, keyword)
 
-elif mode == "create folder":
+elif mode == "new folder":
     if not keyword:
         exit_success()
 
@@ -36,7 +33,7 @@ elif mode == "create folder":
     pyperclip.copy(str(folder))
     os.startfile(str(folder))
 
-elif mode == "create page":
+elif mode == "new page":
     if not keyword:
         exit_success()
 
@@ -52,14 +49,4 @@ elif mode == "create page":
     os.startfile(str(page_file))
 
 elif mode == "list":
-    config_dir = get_config_dir()
-    search_file = config_dir.joinpath("list.search-ms")
-    if not search_file.exists():
-        search_template = config_dir.joinpath(f"resource/template.search-ms")
-        with open(search_template, "r", encoding="utf_8") as t, open(
-            search_file, "w", encoding="utf_8"
-        ) as f:
-            contents = t.read().replace("${note_dir}", str(note_dir))
-            f.write(contents)
-
-    os.startfile(search_file)
+    search(note_dir, "list", True)
