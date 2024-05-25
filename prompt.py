@@ -3,56 +3,66 @@ from typing import Tuple
 
 APP_NAME = "simple-pkm"
 
-mode: str = None
-keyword: str = None
-
 
 def prompt() -> Tuple[str, str]:
-    root = tk.Tk()
-    root.title(APP_NAME)
-    root.configure(background="white")
+    """Show GUI to prompt a user to select mode and keyword.
 
-    entry = tk.Entry(width=40, font=("Meiryo UI", 10), border=0)
+    Returns:
+        Tuple[str, str]: Mode and keyword that a user entered.
+    """
+    window = _Window()
+    window.start()
+    return window.get_input()
 
-    def enter(x):
-        global keyword
-        keyword = entry.get()
-        root.destroy()
 
-    entry.bind("<Return>", enter)
-    entry.pack(padx=10, pady=10)
+class _Window:
+    def __init__(self) -> None:
+        self._mode: str = None
+        self._keyword: str = None
 
-    def escape(x):
-        global keyword
-        keyword = None
-        root.destroy()
+        self._root = tk.Tk()
+        self._root.title(APP_NAME)
+        self._root.configure(background="white")
 
-    root.bind("<Escape>", escape)
+        self._entry = tk.Entry(width=40, font=("Meiryo UI", 10), border=0)
 
-    def list(x):
-        global mode
-        mode = "list"
-        root.destroy()
+        def enter(x):
+            self._keyword = self._entry.get()
+            self._root.destroy()
 
-    def change_mode(mode_name: str):
-        def _change_mode(event):
-            root.title(f"{APP_NAME} - {mode_name}")
-            global mode
-            mode = mode_name
-            root.unbind("l")
-            root.unbind("np")
-            root.unbind("nf")
-            root.unbind("f")
-            entry.focus_set()
+        self._entry.bind("<Return>", enter)
+        self._entry.pack(padx=10, pady=10)
 
-        return _change_mode
+        def escape(x):
+            self._keyword = None
+            self._root.destroy()
 
-    root.bind("l", list)
-    root.bind("np", change_mode("new page"))
-    root.bind("nf", change_mode("new folder"))
-    root.bind("f", change_mode("find"))
+        self._root.bind("<Escape>", escape)
 
-    root.focus_set()
-    root.mainloop()
+        def list(x):
+            self._mode = "list"
+            self._root.destroy()
 
-    return mode, keyword
+        def change_mode(mode_name: str):
+            def _change_mode(event):
+                self._root.title(f"{APP_NAME} - {mode_name}")
+                self._mode = mode_name
+                self._root.unbind("l")
+                self._root.unbind("np")
+                self._root.unbind("nf")
+                self._root.unbind("f")
+                self._entry.focus_set()
+
+            return _change_mode
+
+        self._root.bind("l", list)
+        self._root.bind("np", change_mode("new page"))
+        self._root.bind("nf", change_mode("new folder"))
+        self._root.bind("f", change_mode("find"))
+
+    def start(self):
+        self._root.focus_set()
+        self._root.mainloop()
+
+    def get_input(self) -> Tuple[str, str]:
+        return self._mode, self._keyword
