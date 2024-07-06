@@ -20,8 +20,8 @@
                         operator="wordmatch" propertyType="string" value=".assets">
                     </condition>
                 </condition>
-                <condition type="leafCondition" property="System.ItemNameDisplay"
-                        operator="wordmatch" propertyType="string" value="${keyword}">
+                <condition type="leafCondition" property="System.Generic.String"
+                    operator="wordmatch" propertyType="string" value="${keyword}">
                 </condition>
             </condition>
         </conditions>
